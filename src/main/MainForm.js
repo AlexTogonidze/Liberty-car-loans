@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css'
-//import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 import Select from 'react-select'
 
 const MainForm = () => {
+    const [loading, setLoading] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [modalStatus, setModalStatus] = useState(false);
     const [successModalStatus, setSuccessModalStatus] = useState(false);
@@ -84,15 +85,23 @@ const MainForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(fullName.length == 0) {
-            setError('fullName')
-        }
+        // if(fullName.length == 0) {
+        //     setError('fullName')
+        // }
+
+        setLoading(true);
+
+        setTimeout(()=> {
+          setLoading(false);
+          setSuccessModalStatus(true);
+        }, 3000)
     }
 
     return (
         <div style={{ position: 'relative' }}>
             <form className='mainForm'>
-                {/* <LoadingSpinner /> */}
+
+                { loading && <LoadingSpinner /> }
                 <div className='formHeader'>
                     <h3>განაცხადი</h3>
                     <Dropdown isOpen={dropdownOpen} toggle={() => setDropdownOpen(!dropdownOpen)}>

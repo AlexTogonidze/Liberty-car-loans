@@ -370,6 +370,7 @@ header {
   position: absolute;
   left: 40px;
   top: 0;
+  width:100%;
   height: 100%;
 }
 
@@ -522,16 +523,17 @@ div.spinner {
   position: relative;
   width: 54px;
   height: 54px;
+  top:44%;
   display: inline-block;
-  margin-left: 50%;
+  margin-left: 45%;
   margin-right: 50%;
   padding: 10px;
   border-radius: 10px;
 }
 
 div.spinner div {
-  width: 6%;
-  height: 16%;
+  width: 10%;
+  height: 32%;
   background: red;
   position: absolute;
   left: 49%;
@@ -627,6 +629,10 @@ div.spinner div.bar12 {
 }
 
 @media only screen and (max-width: 960px) {
+  .loadingBg{
+    left:0;
+  }
+
   .css-26l3qy-menu{
     width: 100% !important;
   }
