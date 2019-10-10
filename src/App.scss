@@ -1,0 +1,681 @@
+@font-face {
+  font-family: liberty-nus;
+  src: url(./assets/fonts/liberty-nus-regular-webfont.woff2);
+}
+
+@font-face {
+  font-family: liberty-MT;
+  src: url(./assets/fonts/liberty-mt-medium-webfont.woff2);
+}
+
+body {
+  background: #fbfbfb;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+}
+
+button,
+input {
+  outline: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.contentContainer {
+  display: flex;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1170px;
+  }
+}
+
+header {
+  display: flex;
+  padding: 36px 0;
+  justify-content: space-between;
+}
+
+.navRight {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .freeCall {
+    color: #1f9d68;
+    margin-right: 30px;
+    font-family: liberty-nus;
+    font-weight: bold;
+  }
+
+  .navBtn {
+    display: flex;
+    align-items: center;
+    font-family: liberty-nus;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+
+  .navMenu {
+    padding: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    transform: translate3d(-50%, 20px, 0px) !important;
+
+    .dropdown-item {
+      padding: 10px 4em 10px 0.5em;
+    }
+  }
+}
+
+.leftContent {
+  width: 654px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.mainList li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 15px;
+  }
+
+  ul.mainList li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: #dd2410;
+    position: absolute;
+    left: 0;
+    top: 10px;
+  }
+}
+
+.mainForm {
+  background: #fff;
+  border-radius: 10px;
+  margin-left: 40px;
+  padding: 40px;
+  width: 100%;
+  max-width: 443.5px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
+
+  .formHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .insertLink {
+      padding: 40px 40px 50px 40px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      border: none;
+      transform: translate3d(-63%, 44px, 0px) !important;
+      border-radius: 7px;
+
+      .insertText {
+        text-align: center;
+        color: #000;
+        font-family: liberty-nus;
+        min-width: 290px;
+        margin: 0;
+      }
+
+      .belowText {
+        font-size: 13px;
+        display: block;
+        text-align-last: center;
+      }
+
+      input {
+        border-radius: 50px;
+        margin-top: 20px;
+        padding: 15px 20px;
+        width: 290px;
+        font-size: 12px;
+        border: 1px solid #e6e6e6;
+        background: #f8f8f8;
+      }
+
+      .blackBtn {
+        padding: 13px 0;
+        font-size: 14px;
+        width: 135px;
+        justify-content: center;
+        display: flex;
+        margin: 25px auto 0 auto;
+        outline: none;
+      }
+    }
+
+    .dropdown span {
+      font-size: 14px;
+      margin-left: 3px;
+    }
+
+    h3 {
+      font-size: 24px;
+    }
+  }
+
+  .rangeValContainer {
+    padding: 10px 0px 0px 0px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    border-bottom: none;
+    background: #fff;
+    margin-bottom: 20px;
+
+    .rangeValInnerContainer {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 4px;
+      padding: 0 20px;
+      overflow: hidden;
+
+      .rangeVal {
+        font-weight: bold;
+        font-size: 18px;
+      }
+    }
+  }
+
+  .selectsContainer {
+    display: flex;
+    justify-content: space-between;
+
+    .singleFormContainer {
+      flex: 0.48;
+    }
+  }
+
+  .singleFormContainer {
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    border-radius: 4px;
+    padding: 10px 20px 15px 20px;
+    margin-bottom: 20px;
+
+    label {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.5);
+      margin: 0;
+    }
+
+    input[type="text"] {
+      border: none;
+      width: 100%;
+      outline: none;
+      //border-bottom: 1px solid #e6e6e6;
+      font-size: 14px;
+    }
+  }
+}
+
+.blackBtn {
+  width: 100%;
+  border: none;
+  background: #000;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  padding: 20px 0;
+  line-height: 16px;
+  transition: all 0.3s;
+
+  &:hover {
+    background: #2c2c2c;
+  }
+}
+
+.modalBtn {
+  max-width: 320px;
+}
+
+.customSelect {
+  outline: none;
+  font-size: 14px;
+  line-height: 1em;
+
+  &:active {
+    outline: none;
+    font-size: 14px;
+    line-height: 1em;
+  }
+
+  .css-1hwfws3 {
+    padding: 0;
+    outline: none;
+  }
+
+  .css-yk16xz-control {
+    min-height: 20px;
+  }
+
+  .css-1n7v3ny-option:active {
+    background: none;
+  }
+
+  .css-9gakcf-option {
+    background: transparent;
+    color: #000;
+    padding-left: 20px;
+  }
+
+  .css-26l3qy-menu {
+    border: 1px solid #e6e6e6 !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: none;
+    border-top: none !important;
+    left: -21px;
+    width: 175.5px;
+  }
+
+  .css-yt9ioa-option {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 20px;
+  }
+
+  .css-1n7v3ny-option {
+    background: transparent;
+    font-size: 13px;
+    color: #000;
+    padding-left: 20px;
+  }
+
+  .css-1uccc91-singleValue {
+    line-height: 16px;
+  }
+
+  .css-1pahdxg-control {
+    border: none !important;
+    border-color: #000 !important;
+    box-shadow: none;
+    min-height: 20px;
+  }
+
+  span.css-1okebmr-indicatorSeparator {
+    width: 0;
+  }
+
+  svg {
+    width: 10px;
+    height: 10px;
+    fill: #000;
+  }
+
+  & > div {
+    border: none;
+    outline: none;
+  }
+}
+
+.successText {
+  text-align: center;
+  padding: 40px;
+
+  h4 {
+    font-size: 18px;
+    font-family: liberty-nus;
+    margin-bottom: 15px;
+    margin-top: 20px;
+  }
+
+  p {
+    font-size: 13px;
+
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+  }
+
+  img {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+.termsText {
+  padding: 40px;
+
+  p {
+    font-size: 13px;
+  }
+}
+
+.sendBtn {
+  margin-top: 40px;
+}
+
+/************* Loading spinner *************/
+.loadingBg {
+  background: rgba(255, 255, 255, 0.9);
+  flex: 1;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 40px;
+  top: 0;
+  height: 100%;
+}
+
+/************ Override Styles *************/
+
+.modal-footer {
+  justify-content: center;
+}
+
+.rangeslider {
+  margin: 0;
+}
+
+.rangeslider,
+.rangeslider .rangeslider__fill {
+  box-shadow: none;
+}
+
+.rangeslider-horizontal {
+  height: 2px;
+}
+
+.rangeslider-horizontal .rangeslider__fill {
+  background: #dd2410;
+}
+
+.rangeslider-horizontal .rangeslider__handle:after {
+  display: none;
+}
+
+.rangeslider .rangeslider__handle {
+  box-shadow: none;
+}
+
+.rangeslider-horizontal .rangeslider__handle {
+  height: 14px;
+  width: 14px;
+  background: #dd2410;
+  border-radius: 2px;
+  border: none;
+  outline: none;
+}
+
+.carousel.carousel-slider {
+  margin-bottom: 20px;
+}
+
+.carousel .control-dots .dot {
+  outline: none;
+  background: transparent;
+  border: 2px solid white;
+  width: 10px;
+  height: 10px;
+  margin: 0 4px;
+}
+
+.carousel .control-dots .selected {
+  background: #e13725;
+}
+
+.carousel .slider-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Customize the label (the container) */
+.checkboxContainer {
+  display: inline-block;
+  position: relative;
+  padding-left: 25px;
+  margin: 0;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 13px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & + span {
+    text-decoration: underline;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 13px;
+    margin-left: 5px;
+  }
+}
+
+/* Hide the browser's default checkbox */
+.checkboxContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 17px;
+  width: 17px;
+  background-color: rgba(239, 239, 239, 0.5);
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxContainer:hover input ~ .checkmark {
+  background-color: #fff;
+  border: 2px solid #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxContainer input:checked ~ .checkmark {
+  background-color: #fff;
+  border: 2px solid #ccc;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkboxContainer .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 9px;
+  border: solid #7c7c7c;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/************ spinner styles ***********/
+
+div.spinner {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  display: inline-block;
+  margin-left: 50%;
+  margin-right: 50%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+div.spinner div {
+  width: 6%;
+  height: 16%;
+  background: red;
+  position: absolute;
+  left: 49%;
+  top: 43%;
+  opacity: 0;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  animation: fade 1s linear infinite;
+  -webkit-animation: fade 1s linear infinite;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
+
+div.spinner div.bar1 {
+  -webkit-transform: rotate(0deg) translate(0, -130%);
+  animation-delay: 0;
+  -webkit-animation-delay: 0s;
+}
+
+div.spinner div.bar2 {
+  -webkit-transform: rotate(30deg) translate(0, -130%);
+  animation-delay: -0.9167s;
+  -webkit-animation-delay: -0.9167s;
+}
+
+div.spinner div.bar3 {
+  -webkit-transform: rotate(60deg) translate(0, -130%);
+  animation-delay: -0.833s;
+  -webkit-animation-delay: -0.833s;
+}
+div.spinner div.bar4 {
+  -webkit-transform: rotate(90deg) translate(0, -130%);
+  animation-delay: -0.7497s;
+  -webkit-animation-delay: -0.7497s;
+}
+div.spinner div.bar5 {
+  -webkit-transform: rotate(120deg) translate(0, -130%);
+  animation-delay: -0.667s;
+  -webkit-animation-delay: -0.667s;
+}
+div.spinner div.bar6 {
+  -webkit-transform: rotate(150deg) translate(0, -130%);
+  animation-delay: -0.5837s;
+  -webkit-animation-delay: -0.5837s;
+}
+div.spinner div.bar7 {
+  -webkit-transform: rotate(180deg) translate(0, -130%);
+  animation-delay: -0.5s;
+  -webkit-animation-delay: -0.5s;
+}
+div.spinner div.bar8 {
+  -webkit-transform: rotate(210deg) translate(0, -130%);
+  animation-delay: -0.4167s;
+  -webkit-animation-delay: -0.4167s;
+}
+div.spinner div.bar9 {
+  -webkit-transform: rotate(240deg) translate(0, -130%);
+  animation-delay: -0.333s;
+  -webkit-animation-delay: -0.333s;
+}
+div.spinner div.bar10 {
+  -webkit-transform: rotate(270deg) translate(0, -130%);
+  animation-delay: -0.2497s;
+  -webkit-animation-delay: -0.2497s;
+}
+div.spinner div.bar11 {
+  -webkit-transform: rotate(300deg) translate(0, -130%);
+  animation-delay: -0.167s;
+  -webkit-animation-delay: -0.167s;
+}
+div.spinner div.bar12 {
+  -webkit-transform: rotate(330deg) translate(0, -130%);
+  animation-delay: -0.0833s;
+  -webkit-animation-delay: -0.0833s;
+}
+
+@media only screen and (max-width: 960px) {
+  .css-26l3qy-menu{
+    width: 100% !important;
+  }
+
+  .navRight .navMenu{
+    transform: translate3d(-90%, 20px, 0px) !important;
+  }
+
+  .mainForm .formHeader .insertLink{
+    transform: translate3d(-53%, 44px, 0px) !important
+  }
+
+  .mainForm {
+    background: #f2f2f2;
+    max-width: 100%;
+  }
+
+  .sendBtn {
+    margin-top: 25px;
+  }
+
+  .mainForm .selectsContainer {
+    display: block;
+  }
+
+  .navRight .freeCall {
+    margin-right: 20px;
+  }
+
+  .noResp {
+    display: none;
+  }
+
+  .contentContainer {
+    display: block;
+  }
+
+  .mainForm {
+    margin: 0;
+  }
+
+  .leftContent {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .mainForm{
+    padding:25px;
+  }
+}
+
