@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css'
@@ -10,7 +10,6 @@ const MainForm = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [modalStatus, setModalStatus] = useState(false);
     const [successModalStatus, setSuccessModalStatus] = useState(false);
-    const [formError, setFormError] = useState(false);
 
     // field values with errors
     const [rangeValue, setRangeValue] = useState(4800);
@@ -30,6 +29,7 @@ const MainForm = () => {
     const [phoneError, setPhoneError] = useState(false);
     const [checkBoxVal, setCheckBoxVal] = useState(false);
     const [checkBoxError, setCheckBoxError] = useState(false);
+    const [linkVal, setLinkVar] = useState('');
 
     // data for selects
     const manufacturer_options = [
@@ -69,6 +69,15 @@ const MainForm = () => {
         { value: 2005, label: 2005 },
     ]
 
+
+    useEffect(()=>{
+        if(modelError){
+         return;
+        } else {
+        
+        }
+     },[modelError]);
+ 
 
     //Change handler functions
     const handleOnChange = (rangeValue) => {
@@ -128,14 +137,21 @@ const MainForm = () => {
 
         checkBoxVal !== true ? setCheckBoxError(true) : setCheckBoxError(false);
 
-        return;
-        setLoading(true);
 
-        setTimeout(() => {
-            setLoading(false);
-            setSuccessModalStatus(true);
-        }, 3000)
+        let shouldRun;
 
+        if(year.toString().length && phone.length && idNum.length && fullName.length && checkBoxVal && steering.length && model.length && manufacturer.length){
+            shouldRun = true;
+        }
+
+        if(shouldRun){
+            setLoading(true);
+ 
+            setTimeout(() => {
+                setLoading(false);
+                setSuccessModalStatus(true);
+            }, 3000)
+        }
     }
 
     return (
