@@ -3,7 +3,8 @@ import { Dropdown, DropdownToggle, DropdownMenu, Modal, ModalHeader, ModalBody, 
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css'
 import LoadingSpinner from './LoadingSpinner';
-import Select from 'react-select'
+import Select from 'react-select';
+import axios from 'axios';
 
 const MainForm = () => {
     const [loading, setLoading] = useState(false)
@@ -25,7 +26,7 @@ const MainForm = () => {
     const [fullNameError, setFullNameError] = useState(false);
     const [idNum, setIdNum] = useState('');
     const [idNumError, setIdNumError] = useState(false);
-    const [phone, setPhone] = useState('');
+    const [phone, setPhone] = useState('551');
     const [phoneError, setPhoneError] = useState(false);
     const [checkBoxVal, setCheckBoxVal] = useState(false);
     const [checkBoxError, setCheckBoxError] = useState(false);
@@ -70,14 +71,13 @@ const MainForm = () => {
     ]
 
 
-    useEffect(()=>{
-        if(modelError){
-         return;
-        } else {
-        
-        }
-     },[modelError]);
- 
+    useEffect(() => {
+        return;
+
+    }, [modelError]);
+
+
+
 
     //Change handler functions
     const handleOnChange = (rangeValue) => {
@@ -140,17 +140,40 @@ const MainForm = () => {
 
         let shouldRun;
 
-        if(year.toString().length && phone.length && idNum.length && fullName.length && checkBoxVal && steering.length && model.length && manufacturer.length){
+        if (year.toString().length && phone.length && idNum.length && fullName.length && checkBoxVal && steering.length && model.length && manufacturer.length) {
             shouldRun = true;
         }
 
-        if(shouldRun){
+        if (shouldRun) {
             setLoading(true);
- 
-            setTimeout(() => {
+
+            axios({
+                method: 'post',
+                url: 'https://api.airtable.com/v0/appsogipiPBFjrFPc/Table%201?api_key=keyR0tISIz2CBY1F0',
+                data: {
+                    fields: {
+                        "Full Name": fullName,
+                        "Phone": phone,
+                        "ID": idNum,
+                        "Price": rangeValue.toString(),
+                        "Manufacturer": manufacturer,
+                        "Car Model": model,
+                        "Production Year": year.toString(),
+                        "Steering Wheel": steering
+                    }
+
+                }
+            }).then((response) => {
                 setLoading(false);
                 setSuccessModalStatus(true);
-            }, 3000)
+            }).finally(
+                (err) => {
+                    console.log(err);
+
+                    alert('დაფიქსირდა შეცდომა')
+                }
+            );
+
         }
     }
 
