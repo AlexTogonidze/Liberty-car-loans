@@ -112,11 +112,19 @@ header {
   max-width: 443.5px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
 
+  .carVal{
+    font-size:17px;
+    font-weight: 600;
+    margin-top:5px;
+  }
+
   .formHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+
+  
 
     .insertLink {
       padding: 40px 40px 50px 40px;
@@ -178,6 +186,18 @@ header {
     background: #fff;
     margin-bottom: 20px;
 
+    .priceInput{
+      border:none;
+      font-size: 18px;
+      max-width: 70px;
+      font-weight: bold;
+      width: unset;
+    }
+
+    .priceInput::placeholder{
+      font-size: 14px;
+    }
+
     .rangeValInnerContainer {
       display: flex;
       justify-content: space-between;
@@ -198,6 +218,7 @@ header {
 
     .singleFormContainer {
       flex: 0.48;
+      padding-bottom: 0;
     }
   }
 

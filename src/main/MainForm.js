@@ -3,7 +3,6 @@ import { Dropdown, DropdownToggle, DropdownMenu, Modal, ModalHeader, ModalBody, 
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css'
 import LoadingSpinner from './LoadingSpinner';
-import Select from 'react-select';
 import axios from 'axios';
 
 const MainForm = () => {
@@ -12,71 +11,42 @@ const MainForm = () => {
     const [modalStatus, setModalStatus] = useState(false);
     const [successModalStatus, setSuccessModalStatus] = useState(false);
 
+    var urlParams = new URLSearchParams(window.location.search);
+
+    let steeringParam;
+
+    if (urlParams.get('drive_type') == 1) {
+        steeringParam = 'მარცხნივ';
+    } else if (urlParams.get('drive_type') == 2) {
+        steeringParam = 'მარჯვნივ';
+    }
+
     // field values with errors
-    const [rangeValue, setRangeValue] = useState(4800);
-    const [manufacturer, setManufacturer] = useState('');
+    const [rangeValue, setRangeValue] = useState(0);
+    const [rangeValueError, setRangeValueError] = useState(false);
+    const [manufacturer, setManufacturer] = useState(urlParams.get('manufacturer'));
     const [manufacturerError, setManufacturerError] = useState(false);
-    const [model, setModel] = useState('');
+    const [model, setModel] = useState(urlParams.get('model'));
     const [modelError, setModelError] = useState(false);
-    const [year, setYear] = useState('');
+    const [year, setYear] = useState(urlParams.get('year_built'));
     const [yearError, setYearError] = useState(false);
-    const [steering, setSteering] = useState('');
+    const [steering, setSteering] = useState(steeringParam);
     const [steeringError, setSteeringError] = useState(false);
     const [fullName, setFullName] = useState('');
     const [fullNameError, setFullNameError] = useState(false);
     const [idNum, setIdNum] = useState('');
     const [idNumError, setIdNumError] = useState(false);
-    const [phone, setPhone] = useState('551');
+    const [phone, setPhone] = useState('');
     const [phoneError, setPhoneError] = useState(false);
     const [checkBoxVal, setCheckBoxVal] = useState(false);
     const [checkBoxError, setCheckBoxError] = useState(false);
     const [linkVal, setLinkVar] = useState('');
-
-    // data for selects
-    const manufacturer_options = [
-        { value: 'Mercedes Benz', label: 'Mercedes Benz' },
-        { value: 'BMW', label: 'BMW' },
-        { value: 'Audi', label: 'Audi' },
-        { value: 'Toyota', label: 'Toyota' },
-    ]
-
-    const model_options = [
-        { value: 'C300', label: 'C300' },
-        { value: 'E320', label: 'E320' },
-        { value: 'BMW 535', label: 'BMW 535' },
-        { value: 'Toyota Prius', label: 'Toyota Prius' },
-    ]
-
-    const steering_options = [
-        { value: 'მარცხენა', label: 'მარცხენა' },
-        { value: 'მარჯვენა', label: 'მარჯვენა' }
-    ]
-
-    const year_options = [
-        { value: 2019, label: 2019 },
-        { value: 2018, label: 2018 },
-        { value: 2017, label: 2017 },
-        { value: 2016, label: 2016 },
-        { value: 2015, label: 2015 },
-        { value: 2014, label: 2014 },
-        { value: 2013, label: 2013 },
-        { value: 2012, label: 2012 },
-        { value: 2011, label: 2011 },
-        { value: 2010, label: 2010 },
-        { value: 2009, label: 2009 },
-        { value: 2008, label: 2008 },
-        { value: 2007, label: 2007 },
-        { value: 2006, label: 2006 },
-        { value: 2005, label: 2005 },
-    ]
+    const source = urlParams.get('utm_source').length ? urlParams.get('utm_source') : 'direct';
 
 
     useEffect(() => {
         return;
-
     }, [modelError]);
-
-
 
 
     //Change handler functions
@@ -94,18 +64,6 @@ const MainForm = () => {
         }
     }
 
-
-    const onSelectFunc = (optionSelected, type) => {
-        if (type === 'manufacturer') {
-            setManufacturer(optionSelected.value);
-        } else if (type === 'model') {
-            setModel(optionSelected.value)
-        } else if (type === 'year') {
-            setYear(optionSelected.value)
-        } else if (type === 'steering') {
-            setSteering(optionSelected.value)
-        }
-    }
 
     // modal toggle functions
     const toggleModal = () => {
@@ -137,10 +95,12 @@ const MainForm = () => {
 
         checkBoxVal !== true ? setCheckBoxError(true) : setCheckBoxError(false);
 
+        rangeValue.length === 0 ? setRangeValueError(true) : setRangeValueError(false);
+
 
         let shouldRun;
 
-        if (year.toString().length && phone.length && idNum.length && fullName.length && checkBoxVal && steering.length && model.length && manufacturer.length) {
+        if (year.toString().length && phone.length && idNum.length && fullName.length && checkBoxVal && steering.length && model.length && manufacturer.length && rangeValue.length) {
             shouldRun = true;
         }
 
@@ -155,17 +115,21 @@ const MainForm = () => {
                         "Full Name": fullName,
                         "Phone": phone,
                         "ID": idNum,
-                        "Price": rangeValue.toString(),
+                        "Price": rangeValue,
                         "Manufacturer": manufacturer,
                         "Car Model": model,
                         "Production Year": year.toString(),
-                        "Steering Wheel": steering
+                        "Steering Wheel": steering,
+                        "Source": source
                     }
 
                 }
             }).then((response) => {
-                setLoading(false);
-                setSuccessModalStatus(true);
+                
+                    setLoading(false);
+                    setSuccessModalStatus(true);
+              
+                 
             }).finally(
                 (err) => {
                     console.log(err);
@@ -200,11 +164,19 @@ const MainForm = () => {
                 <div className='rangeValContainer'>
                     <div className='rangeValInnerContainer'>
                         <p>თანხა</p>
-                        <p className='rangeVal'>{rangeValue} $</p>
+                        <div>
+                            <input
+                                autoFocus={true}
+                                className='priceInput'
+                                placeholder='თანხა'
+                                value={rangeValue} onChange={e =>
+                                    setRangeValue(e.target.value)} /> <b>₾</b>
+                        </div>
                     </div>
+                    {rangeValueError && <p className='errorText' style={{marginLeft:210, marginBottom: 10}}>ჩაწერა სავალდებულოა</p>}
                     <Slider
                         min={100}
-                        max={25000}
+                        max={100000}
                         value={rangeValue}
                         step={100}
                         tooltip={false}
@@ -212,60 +184,46 @@ const MainForm = () => {
                     />
                 </div>
 
-                <div className='margin20'>
+          
+                <div className={!manufacturer && !model ? null : `margin20`}>
                     <div className='selectsContainer'>
-                        <div className={`singleFormContainer ${manufacturerError && 'error'}`}>
-                            <label htmlFor='name'>მწარმოებელი</label>
-                            <Select
-                                placeholder='აირჩიეთ'
-                                value={manufacturer.value}
-                                options={manufacturer_options}
-                                className='customSelect'
-                                onChange={(e) => onSelectFunc(e, 'manufacturer')}
-                            />
-                            {manufacturerError && <p className='errorText'>არჩევა სავალდებულოა</p>}
-                        </div>
+                        {!!manufacturer &&
+                            <div className={`singleFormContainer ${manufacturerError && 'error'}`}>
+                                <label htmlFor='name'>მწარმოებელი</label>
+                                <p className='carVal'>{manufacturer}</p>
+                                {manufacturerError && <p className='errorText'>არჩევა სავალდებულოა</p>}
+                            </div>
+                        }
 
-                        <div className={`singleFormContainer ${modelError && 'error'}`}>
-                            <label htmlFor='name'>მოდელი</label>
-                            <Select
-                                placeholder='აირჩიეთ'
-                                value={model.value}
-                                options={model_options}
-                                className='customSelect'
-                                onChange={(e) => onSelectFunc(e, 'model')}
-                            />
-                            {modelError && <p className='errorText'>არჩევა სავალდებულოა</p>}
-                        </div>
+                        {!!model &&
+                            <div className={`singleFormContainer ${modelError && 'error'}`}>
+                                <label htmlFor='name'>მოდელი</label>
+
+                                <p className='carVal'>{model}</p>
+                                {modelError && <p className='errorText'>არჩევა სავალდებულოა</p>}
+                            </div>
+                        }
                     </div>
                 </div>
+                
 
                 <div className='margin20'>
                     <div className='selectsContainer'>
-                        <div className={`singleFormContainer ${yearError && 'error'}`}>
-                            <label htmlFor='name'>გამოშვების წელი</label>
-                            <Select
-                                placeholder='აირჩიეთ'
-                                value={year.value}
-                                options={year_options}
-                                className='customSelect'
-                                onChange={(e) => onSelectFunc(e, 'year')}
-                            />
-                            {yearError && <p className='errorText'>არჩევა სავალდებულოა</p>}
-                        </div>
+                        {!!year &&
+                            <div className={`singleFormContainer ${yearError && 'error'}`}>
+                                <label htmlFor='name'>გამოშვების წელი</label>
+                                <p className='carVal'>{year}</p>
+                                {yearError && <p className='errorText'>არჩევა სავალდებულოა</p>}
+                            </div>
+                        }
 
-                        <div className={`singleFormContainer ${steeringError && 'error'}`}>
-                            <label htmlFor='name'>საჭე</label>
-                            <Select
-                                placeholder='აირჩიეთ'
-                                value={steering.value}
-                                options={steering_options}
-                                className='customSelect'
-                                onChange={(e) => onSelectFunc(e, 'steering')}
-                            />
-                            {steeringError && <p className='errorText'>არჩევა სავალდებულოა</p>}
-                        </div>
-
+                        {!!steering &&
+                            <div className={`singleFormContainer ${steeringError && 'error'}`}>
+                                <label htmlFor='name'>საჭე</label>
+                                <p className='carVal'>{steering}</p>
+                                {steeringError && <p className='errorText'>არჩევა სავალდებულოა</p>}
+                            </div>
+                        }
                     </div>
                 </div>
 

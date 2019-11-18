@@ -4,6 +4,18 @@ import { Carousel } from 'react-responsive-carousel';
 
 
 const CarCarousel = () => {
+
+    var urlParams = new URLSearchParams(window.location.search);
+
+    const imgBaseURL = urlParams.get('image_url');
+    const imgCount = urlParams.get('image_count');
+
+    const imageArray = [];
+
+    for (var i = 0; i < imgCount; i++) {
+        imageArray.push(imgBaseURL + (i + 1) + '.jpg');
+    }
+
     return (
         <div className='leftContent'>
             <Carousel
@@ -14,26 +26,17 @@ const CarCarousel = () => {
                 showIndicators={true}
                 swipeable={true}
             >
-                <div>
-                    <img src={require('../assets/merc.png')} alt='car' />
 
-                </div>
-                <div>
-                    <img src={require('../assets/merc.png')} alt='car' />
-
-                </div>
-                <div>
-                    <img src={require('../assets/merc.png')} alt='car' />
-
-                </div>
-                <div>
-                    <img src={require('../assets/merc.png')} alt='car' />
-
-                </div>
-                <div>
-                    <img src={require('../assets/merc.png')} alt='car' />
-
-                </div>
+                {!!imgBaseURL > 0 && imgCount.length > 0 ? imageArray.map((x, i) => {
+                    return (
+                        <div key={i}>
+                            <img src={x} alt='Car image' />
+                        </div>
+                    )
+                }) :
+                    <div key={i}>
+                        <img src='https://specialtycarcollection.com/wp-content/themes/motors/assets/images/automanager_placeholders/plchldr798automanager.png' alt='Car image' />
+                    </div>}
             </Carousel>
             <div className='noResp'>
                 <h3>მარტივი პირობები ახალი და მეორადი
