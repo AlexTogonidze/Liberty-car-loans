@@ -4,8 +4,8 @@
 }
 
 @font-face {
-  font-family: liberty-MT;
-  src: url(./assets/fonts/liberty-mt-medium-webfont.woff2);
+  font-family: liberty-nus-medium;
+  src: url(./assets/fonts/liberty-nus-medium-webfont.woff2);
 }
 
 body {
@@ -83,13 +83,18 @@ header {
 
   ul {
     list-style: none;
-    padding: 0;
+    padding: 0 0 50px 0;
+  }
+
+  p{
+    font-family: liberty-nus-medium;
   }
 
   ul.mainList li {
     position: relative;
     padding-left: 20px;
     margin-bottom: 15px;
+    font-family: liberty-nus-medium;
   }
 
   ul.mainList li::before {
@@ -109,11 +114,11 @@ header {
   margin-left: 40px;
   padding: 40px;
   width: 100%;
-  max-width: 443.5px;
+  max-width: 441.5px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
 
   .carVal{
-    font-size:17px;
+    font-size:16px;
     font-weight: 600;
     margin-top:5px;
   }
@@ -124,7 +129,6 @@ header {
     align-items: center;
     margin-bottom: 30px;
 
-  
 
     .insertLink {
       padding: 40px 40px 50px 40px;
@@ -188,8 +192,8 @@ header {
 
     .priceInput{
       border:none;
-      font-size: 18px;
-      max-width: 70px;
+      font-size: 17px;
+      max-width: 60px;
       font-weight: bold;
       width: unset;
     }
@@ -204,6 +208,7 @@ header {
       border-radius: 4px;
       padding: 0 20px;
       overflow: hidden;
+      font-family: liberty-nus-medium;
 
       .rangeVal {
         font-weight: bold;
@@ -227,6 +232,8 @@ header {
     background: #fff;
     border-radius: 4px;
     padding: 10px 20px 15px 20px;
+    font-family: liberty-nus-medium;
+
 
     label {
       font-size: 12px;
@@ -372,6 +379,8 @@ header {
   padding: 15px 40px 10px 40px;
   max-height: 350px;
   overflow-y: scroll;
+  font-family: liberty-nus-medium;
+  
   &::-webkit-scrollbar-track {
     background-color: #f5f5f5;
   }
@@ -546,9 +555,11 @@ header {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-family: liberty-nus-medium;
 
   & + span {
     text-decoration: underline;
+    font-family: liberty-nus-medium;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.5);
     font-size: 13px;

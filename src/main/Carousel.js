@@ -23,7 +23,7 @@ const CarCarousel = () => {
                 showThumbs={false}
                 autoPlay={true}
                 infiniteLoop={true}
-                showIndicators={true}
+                showIndicators={!!imgBaseURL && imgCount.length > 0 ? true : false}
                 swipeable={true}
             >
 
@@ -35,20 +35,20 @@ const CarCarousel = () => {
                     )
                 }) :
                     <div key={i}>
-                        <img src='https://specialtycarcollection.com/wp-content/themes/motors/assets/images/automanager_placeholders/plchldr798automanager.png' alt='Car image' />
+                        <img src={require('../assets/tesla-model.png')} alt='Car image' />
                     </div>}
             </Carousel>
             <div className='noResp'>
                 <h3>მარტივი პირობები ახალი და მეორადი
             მანქანის შესაძენად</h3>
-                <p>არაფერი შეედრება გრძნობას, როდესაც ახალი ავტომობილის გასაღებს
+                <p className='mainText'>არაფერი შეედრება გრძნობას, როდესაც ახალი ავტომობილის გასაღებს
     გადმოგცემენ. ლიბერთის ავტო სესხის დახმარებით, მანქანის შეძენა მარტივია
     გააკეთე განაცხადი ონლაინ. წაიყვანე შენი ახალი ან მეორადი ავტომობილი დღესვე!
 სესხის მიღება შეგიძლია:  </p>
                 <ul className='mainList'>
                     <li>ახალი ან მეორადი მანქანის შესაძენად</li>
                     <li> თანამონაწილეობის გარეშე</li>
-                    <li>მაქსიმუმ  100 000 ₾ და 72 თვით</li>
+                    <li>მაქსიმუმ 100 000<img src={require('../assets/lari.svg')} style={{width: 16, marginTop: -4}} alt='GEL' /> და 72 თვით</li>
                     <li>შემოსავლების დადასტურების გარეშე</li>
                     <li>გირავნობის ხარჯის და გაცემის საკომისიო გარეშე</li>
                     <li>მხოლოდ ახალი ავტომობილის უზრუნველყოფით</li>

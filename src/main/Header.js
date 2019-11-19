@@ -7,9 +7,11 @@ const Header = () => {
 
     return (
         <header className='header'>
-            <img src={require('../assets/Logo.png')} alt='logo' />
+            <a href='https://libertybank.ge/' target="_blank">
+                <img src={require('../assets/Logo.png')} alt='logo' />
+            </a>
 
-            <div className='navRight'>
+            {/*<div className='navRight'>
                 <a className='freeCall' href='tel:555555555'>
                     <img src={require('../assets/phone.png')} alt='phone' />
                     <span> უფასო ზარი</span>
@@ -27,6 +29,7 @@ const Header = () => {
                     </DropdownMenu>
                 </Dropdown>
             </div>
+           */}
 
         </header>
     )

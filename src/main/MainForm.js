@@ -22,7 +22,7 @@ const MainForm = () => {
     }
 
     // field values with errors
-    const [rangeValue, setRangeValue] = useState(0);
+    const [rangeValue, setRangeValue] = useState();
     const [rangeValueError, setRangeValueError] = useState(false);
     const [manufacturer, setManufacturer] = useState(urlParams.get('manufacturer'));
     const [manufacturerError, setManufacturerError] = useState(false);
@@ -41,7 +41,7 @@ const MainForm = () => {
     const [checkBoxVal, setCheckBoxVal] = useState(false);
     const [checkBoxError, setCheckBoxError] = useState(false);
     const [linkVal, setLinkVar] = useState('');
-    const source = urlParams.get('utm_source').length ? urlParams.get('utm_source') : 'direct';
+    const source = urlParams.get('utm_source') ? urlParams.get('utm_source') : 'direct';
 
 
     useEffect(() => {
@@ -79,13 +79,13 @@ const MainForm = () => {
         //prevents default form submission
         e.preventDefault();
 
-        manufacturer.length === 0 ? setManufacturerError(true) : setManufacturerError(false);
+        !manufacturer ? setManufacturerError(true) : setManufacturerError(false);
 
-        model.length === 0 ? setModelError(true) : setModelError(false);
+        !model ? setModelError(true) : setModelError(false);
 
-        year.length === 0 ? setYearError(true) : setYearError(false);
+        !year ? setYearError(true) : setYearError(false);
 
-        steering.length === 0 ? setSteeringError(true) : setSteeringError(false);
+        !steering ? setSteeringError(true) : setSteeringError(false);
 
         fullName.length === 0 ? setFullNameError(true) : setFullNameError(false);
 
@@ -95,16 +95,19 @@ const MainForm = () => {
 
         checkBoxVal !== true ? setCheckBoxError(true) : setCheckBoxError(false);
 
-        rangeValue.length === 0 ? setRangeValueError(true) : setRangeValueError(false);
+        !rangeValue  ? setRangeValueError(true) : setRangeValueError(false);
 
 
         let shouldRun;
+        let shouldRunWithoutCarInfo;
 
-        if (year.toString().length && phone.length && idNum.length && fullName.length && checkBoxVal && steering.length && model.length && manufacturer.length && rangeValue.length) {
+        if (year && phone.length && idNum.length && fullName.length && checkBoxVal && steering && model && manufacturer && rangeValue && source) {
             shouldRun = true;
+        }else if(phone.length && idNum.length && fullName.length && checkBoxVal && source && rangeValue){
+            shouldRunWithoutCarInfo = true;
         }
 
-        if (shouldRun) {
+        if (shouldRun || shouldRunWithoutCarInfo) {
             setLoading(true);
 
             axios({
@@ -118,23 +121,21 @@ const MainForm = () => {
                         "Price": rangeValue,
                         "Manufacturer": manufacturer,
                         "Car Model": model,
-                        "Production Year": year.toString(),
+                        "Production Year": year,
                         "Steering Wheel": steering,
                         "Source": source
                     }
 
                 }
             }).then((response) => {
-                
-                    setLoading(false);
-                    setSuccessModalStatus(true);
-              
-                 
+
+                setLoading(false);
+                setSuccessModalStatus(true);
+
+
             }).finally(
                 (err) => {
                     console.log(err);
-
-                    alert('დაფიქსირდა შეცდომა')
                 }
             );
 
@@ -147,7 +148,7 @@ const MainForm = () => {
                 {loading && <LoadingSpinner />}
                 <div className='formHeader'>
                     <h3>განაცხადი</h3>
-                    <Dropdown isOpen={dropdownOpen} toggle={() => setDropdownOpen(!dropdownOpen)}>
+                    {/* <Dropdown isOpen={dropdownOpen} toggle={() => setDropdownOpen(!dropdownOpen)}>
                         <DropdownToggle className='clickable' tag='div' style={{ color: dropdownOpen && '#DB1810' }}>
                             <img src={!dropdownOpen ? require('../assets/link.png') : require('../assets/link-red.png')} alt='nav' />
                             <span>შეავსე ლინკით</span>
@@ -158,7 +159,7 @@ const MainForm = () => {
                             <input type='text' placeholder='ჩაწერეთ ლინკი' />
                             <button className='blackBtn'>ჩასმა</button>
                         </DropdownMenu>
-                    </Dropdown>
+                    </Dropdown> */}
                 </div>
 
                 <div className='rangeValContainer'>
@@ -167,13 +168,17 @@ const MainForm = () => {
                         <div>
                             <input
                                 autoFocus={true}
+                                max="100000"
+                                pattern='[0-9]{0,5}'
                                 className='priceInput'
                                 placeholder='თანხა'
                                 value={rangeValue} onChange={e =>
-                                    setRangeValue(e.target.value)} /> <b>₾</b>
+                                {if (e.target.value.length <= 6  )
+                                    setRangeValue(e.target.value)
+                                }} /> <img src={require('../assets/lari.svg')} style={{width: 16, marginTop: -4}} alt='GEL sign' />
                         </div>
                     </div>
-                    {rangeValueError && <p className='errorText' style={{marginLeft:210, marginBottom: 10}}>ჩაწერა სავალდებულოა</p>}
+                    {rangeValueError && <p className='errorText' style={{ marginLeft: 210, marginBottom: 10 }}>ჩაწერა სავალდებულოა</p>}
                     <Slider
                         min={100}
                         max={100000}
@@ -184,7 +189,7 @@ const MainForm = () => {
                     />
                 </div>
 
-          
+
                 <div className={!manufacturer && !model ? null : `margin20`}>
                     <div className='selectsContainer'>
                         {!!manufacturer &&
@@ -205,7 +210,7 @@ const MainForm = () => {
                         }
                     </div>
                 </div>
-                
+
 
                 <div className='margin20'>
                     <div className='selectsContainer'>
@@ -313,7 +318,10 @@ const MainForm = () => {
                     <p>თქვენი განაცხადი წარმატებით გადაიგზავნა
 მაქსიმუმ 1 სამუშაო დღეში ჩვენი ოპერატორი
 დაგიკავშირდებათ და გაგაცნობთ</p>
-                    <button className='blackBtn modalBtn' onClick={() => setSuccessModalStatus(false)}>მთავარ გვერდზე დაბრუნება</button>
+                    <button className='blackBtn modalBtn' onClick={() => {
+                        setSuccessModalStatus(false); 
+                        window.location.href = 'https://libertybank.ge/'}
+                        }>მთავარ გვერდზე დაბრუნება</button>
                 </ModalBody>
             </Modal>
         </div>
