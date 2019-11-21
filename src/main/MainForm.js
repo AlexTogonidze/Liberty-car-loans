@@ -58,7 +58,9 @@ const MainForm = () => {
         if (type === 'fullName') {
             setFullName(e.target.value);
         } else if (type === 'idNum') {
-            setIdNum(e.target.value);
+            if(e.target.value.length <= 11){
+                    setIdNum(e.target.value);
+            }
         } else if (type === 'phone') {
             setPhone(e.target.value);
         }
@@ -89,7 +91,7 @@ const MainForm = () => {
 
         fullName.length === 0 ? setFullNameError(true) : setFullNameError(false);
 
-        idNum.length === 0 ? setIdNumError(true) : setIdNumError(false);
+        idNum.length < 11 ? setIdNumError(true) : setIdNumError(false);
 
         phone.length === 0 ? setPhoneError(true) : setPhoneError(false);
 
@@ -118,7 +120,7 @@ const MainForm = () => {
                         "Full Name": fullName,
                         "Phone": phone,
                         "ID": idNum,
-                        "Price": rangeValue,
+                        "Amount": rangeValue,
                         "Manufacturer": manufacturer,
                         "Car Model": model,
                         "Production Year": year,
@@ -128,11 +130,13 @@ const MainForm = () => {
 
                 }
             }).then((response) => {
-
-                setLoading(false);
-                setSuccessModalStatus(true);
-
-
+                if(response){
+                    setLoading(false);
+                    setSuccessModalStatus(true);
+                } else {
+                    setLoading(false);
+                    alert('დაფიქსირდა შეცდომა, სცადეთ თავიდან')
+                }
             }).finally(
                 (err) => {
                     console.log(err);
@@ -169,7 +173,7 @@ const MainForm = () => {
                             <input
                                 autoFocus={true}
                                 max="100000"
-                                pattern='[0-9]{0,5}'
+                                pattern="^[0-9]*$"
                                 className='priceInput'
                                 placeholder='თანხა'
                                 value={rangeValue} onChange={e =>
@@ -178,7 +182,7 @@ const MainForm = () => {
                                 }} /> <img src={require('../assets/lari.svg')} style={{width: 16, marginTop: -4}} alt='GEL sign' />
                         </div>
                     </div>
-                    {rangeValueError && <p className='errorText' style={{ marginLeft: 210, marginBottom: 10 }}>ჩაწერა სავალდებულოა</p>}
+                    {rangeValueError && <p className='errorText' style={{ marginLeft: 130, marginBottom: 10 }}>გთხოვთ მიუთითოთ სასურველი თანხა</p>}
                     <Slider
                         min={100}
                         max={100000}
@@ -243,7 +247,7 @@ const MainForm = () => {
                 <div className='margin20'>
                     <div className={`singleFormContainer ${idNumError && 'error'}`}>
                         <label htmlFor='personalNumber'>პირადი ნომერი</label>
-                        <input placeholder='ჩაწერეთ პ. ნომერი' id='personalNumber' type='text' value={idNum} onChange={(e) => onChange(e, 'idNum')} />
+                        <input placeholder='პ. ნომერი - 11 სიმბოლო' id='personalNumber' type='text' value={idNum} onChange={(e) => onChange(e, 'idNum')} />
                     </div>
                     {idNumError && <p className='errorText'>ველის შევსება სავალდებულოა</p>}
                 </div>
@@ -285,15 +289,12 @@ const MainForm = () => {
                     წესები და პირობები
                 </ModalHeader>
                 <ModalBody className='termsText'>
-                    <p> ინფორმაციული უსაფრთხოება ბოლო წლების ერთ-ერთი ყველაზე აქტუალური გამოწვევაა თანამედროვე მსოფლიოში. </p>
-                    <br />
-                    <p>ბოლო ათწლეულების ტექნოლოგიურმა პროგრესმა საგრძნობლად გაამარტივა თანამედროვე ადამიანის ყოველდღიური ყოფა.</p>
-                    <p>დღეს, სმარტფონზე თითის დაჭერით შესაძლებელია ფინანსური აქტივების მსოფლიოს ნებისმიერ წერტილში გაგზავნა და ვიდეო ზარის მეშვეობით, რეალურ დროში საკონფერენციო ზარების განხორციელება უცხოელ პარტნიორებთან.</p>
-                    <p>ასეთი არნახული ტემპებით მზარდი ციფრული ტექნოლოგიები, კომფორტულ სერვისებთან ერთად აჩენს ახალ შესაძლებლობებს თაღლითებისთვის, რომელთა მიზანი სხვების პირად ინფორმაციაზე წვდომის დაუფლებაა. </p>
-                    <br />
-                    <p>ამ გვერდზე არსებული რეკომენდაციები დაგეხმარებათ თაღლითური სქემებისგან თავის დაცვაში. რჩევების გათვალისწინებით, თქვენ საგრძნობლად შეამცირებთ თქვენი პირადი ინფორმაციის არასანქცირებული გამჟღავნების რისკს და ასეთი შემთხვევის დადგომის შემთხვევაში, მზად იქნებით სათანადოდ რეაგირებისთვის. </p>
 
-                    <p>თუ თაღლითებმა თქვენი ან სხვის ინფორმაციაზე წვდომა მოიპოვეს, გთხოვთ დაუყოვნებლივ დაგვირეკოთ: 0322555500</p>
+                    <p> ვადასტურებ, რომ ჩემს მიერ მითითებული მონაცემები არის უტყუარი, სრული და მოქმედი. </p>
+                    <br />
+                    <p>გავეცანი სს „ლიბერთი ბანკის“ პერსონალურ მონაცემთა დაცვის პოლიტიკას, რომელიც განთავსებულია ბანკის ვებ გვერდზე და სრულად ვეთანხმები მის პირობებს. თანახმა ვარ სს „ლიბერთი ბანკმა“ დაამუშავოს ჩემს მიერ წინამდებარე განაცხადის ფორმაში მითითებული პირადი მონაცემები საბანკო მომსახურების განხორციელების მიზნით, მათ შორის პირდაპირი მარკეტინგის მიზნითაც, რაც გულისხმობს ჩემთვის სარეკლამო შეთავაზებების გამოგზავნას* მოკლე ტექსტური შეტყობინების ან ელ ფოსტის საშუალებით. *სარეკლამო შეთავაზებების მიღების გაუქმება შესაძლებელია ნებისმიერ დროს.</p>
+                    <br />
+                    <p>ამისათვის, საკმარისია მობილური ტელეფონით გაგზავნოთ მოკლე ტექსტური შეტყობინება (SMS) ტექსტით NOSMS ნომერზე 91036 (SMS რეკლამის ავტომატური გათიშვის მოთხოვნისთვის), დააჭიროთ შეთავაზების გამოწერის გაუქმების ბმულს ელ ფოსტით მიღებულ შეტყობინებაში (ელ ფოსტის რეკლამის ავტომატური გათიშვის მოთხოვნით) <br/> ან დაგვირეკოთ ცხელ ხაზზე: <b>0322 55 55 00</b> </p>
                 </ModalBody>
                 <ModalFooter>
                     <button className='blackBtn modalBtn' onClick={() => {
