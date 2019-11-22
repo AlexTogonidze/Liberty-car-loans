@@ -4,12 +4,15 @@ import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css'
 import LoadingSpinner from './LoadingSpinner';
 import axios from 'axios';
+import InputMask from 'react-input-mask';
+import ReactGA from 'react-ga';
 
 const MainForm = () => {
     const [loading, setLoading] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [modalStatus, setModalStatus] = useState(false);
     const [successModalStatus, setSuccessModalStatus] = useState(false);
+
 
     var urlParams = new URLSearchParams(window.location.search);
 
@@ -58,8 +61,8 @@ const MainForm = () => {
         if (type === 'fullName') {
             setFullName(e.target.value);
         } else if (type === 'idNum') {
-            if(e.target.value.length <= 11){
-                    setIdNum(e.target.value);
+            if (e.target.value.length <= 11) {
+                setIdNum(e.target.value);
             }
         } else if (type === 'phone') {
             setPhone(e.target.value);
@@ -81,13 +84,13 @@ const MainForm = () => {
         //prevents default form submission
         e.preventDefault();
 
-        !manufacturer ? setManufacturerError(true) : setManufacturerError(false);
+        ReactGA.event({
+            category: 'Autoloan',
+            action: 'Click',
+            label: 'Send Lead'
+          });
 
-        !model ? setModelError(true) : setModelError(false);
-
-        !year ? setYearError(true) : setYearError(false);
-
-        !steering ? setSteeringError(true) : setSteeringError(false);
+        !rangeValue ? setRangeValueError(true) : setRangeValueError(false);
 
         fullName.length === 0 ? setFullNameError(true) : setFullNameError(false);
 
@@ -97,7 +100,15 @@ const MainForm = () => {
 
         checkBoxVal !== true ? setCheckBoxError(true) : setCheckBoxError(false);
 
-        !rangeValue  ? setRangeValueError(true) : setRangeValueError(false);
+        !model ? setModelError(true) : setModelError(false);
+
+        !year ? setYearError(true) : setYearError(false);
+
+        !manufacturer ? setManufacturerError(true) : setManufacturerError(false);
+
+        !steering ? setSteeringError(true) : setSteeringError(false);
+
+
 
 
         let shouldRun;
@@ -105,11 +116,13 @@ const MainForm = () => {
 
         if (year && phone.length && idNum.length && fullName.length && checkBoxVal && steering && model && manufacturer && rangeValue && source) {
             shouldRun = true;
-        }else if(phone.length && idNum.length && fullName.length && checkBoxVal && source && rangeValue){
+        } else if (phone.length && idNum.length && fullName.length && checkBoxVal && source && rangeValue) {
             shouldRunWithoutCarInfo = true;
         }
 
         if (shouldRun || shouldRunWithoutCarInfo) {
+
+
             setLoading(true);
 
             axios({
@@ -130,7 +143,7 @@ const MainForm = () => {
 
                 }
             }).then((response) => {
-                if(response){
+                if (response) {
                     setLoading(false);
                     setSuccessModalStatus(true);
                 } else {
@@ -151,7 +164,7 @@ const MainForm = () => {
             <form className='mainForm'>
                 {loading && <LoadingSpinner />}
                 <div className='formHeader'>
-                    <h3>განაცხადი</h3>
+                    <h3>ავტოსესხის განაცხადი</h3>
                     {/* <Dropdown isOpen={dropdownOpen} toggle={() => setDropdownOpen(!dropdownOpen)}>
                         <DropdownToggle className='clickable' tag='div' style={{ color: dropdownOpen && '#DB1810' }}>
                             <img src={!dropdownOpen ? require('../assets/link.png') : require('../assets/link-red.png')} alt='nav' />
@@ -176,10 +189,10 @@ const MainForm = () => {
                                 pattern="^[0-9]*$"
                                 className='priceInput'
                                 placeholder='თანხა'
-                                value={rangeValue} onChange={e =>
-                                {if (e.target.value.length <= 6  )
-                                    setRangeValue(e.target.value)
-                                }} /> <img src={require('../assets/lari.svg')} style={{width: 16, marginTop: -4}} alt='GEL sign' />
+                                value={rangeValue} onChange={e => {
+                                    if (e.target.value.length <= 6)
+                                        setRangeValue(e.target.value)
+                                }} /> <img src={require('../assets/lari.svg')} style={{ width: 16, marginTop: -4 }} alt='GEL sign' />
                         </div>
                     </div>
                     {rangeValueError && <p className='errorText' style={{ marginLeft: 130, marginBottom: 10 }}>გთხოვთ მიუთითოთ სასურველი თანხა</p>}
@@ -239,7 +252,7 @@ const MainForm = () => {
                 <div className='margin20'>
                     <div className={`singleFormContainer ${fullNameError && 'error'}`}>
                         <label htmlFor='name'>სახელი და გვარი</label>
-                        <input placeholder='ჩაწერეთ სრული სახელი' id='name' type='text' value={fullName} onChange={(e) => onChange(e, 'fullName')} />
+                        <input placeholder='ჩაწერეთ სახელი გვარი' id='name' type='text' value={fullName} onChange={(e) => onChange(e, 'fullName')} />
                     </div>
                     {fullNameError && <p className='errorText'>ველის შევსება სავალდებულოა</p>}
                 </div>
@@ -247,6 +260,7 @@ const MainForm = () => {
                 <div className='margin20'>
                     <div className={`singleFormContainer ${idNumError && 'error'}`}>
                         <label htmlFor='personalNumber'>პირადი ნომერი</label>
+
                         <input placeholder='პ. ნომერი - 11 სიმბოლო' id='personalNumber' type='text' value={idNum} onChange={(e) => onChange(e, 'idNum')} />
                     </div>
                     {idNumError && <p className='errorText'>ველის შევსება სავალდებულოა</p>}
@@ -255,7 +269,8 @@ const MainForm = () => {
                 <div className='margin20'>
                     <div className={`singleFormContainer ${phoneError && 'error'}`}>
                         <label htmlFor='phone'>ტელეფონი</label>
-                        <input placeholder='ჩაწერეთ ტელეფონი' id='phone' type='text' value={phone} onChange={(e) => onChange(e, 'phone')} />
+                        <InputMask placeholder='ჩაწერეთ ტელეფონი' id='phone' type='text' value={phone} onChange={(e) => onChange(e, 'phone')} mask="999 99 99 99" maskChar=" " />
+                        {/* <input placeholder='ჩაწერეთ ტელეფონი' id='phone' type='text' value={phone} onChange={(e) => onChange(e, 'phone')} /> */}
                     </div>
                     {phoneError && <p className='errorText'>ველის შევსება სავალდებულოა</p>}
                 </div>
@@ -294,7 +309,7 @@ const MainForm = () => {
                     <br />
                     <p>გავეცანი სს „ლიბერთი ბანკის“ პერსონალურ მონაცემთა დაცვის პოლიტიკას, რომელიც განთავსებულია ბანკის ვებ გვერდზე და სრულად ვეთანხმები მის პირობებს. თანახმა ვარ სს „ლიბერთი ბანკმა“ დაამუშავოს ჩემს მიერ წინამდებარე განაცხადის ფორმაში მითითებული პირადი მონაცემები საბანკო მომსახურების განხორციელების მიზნით, მათ შორის პირდაპირი მარკეტინგის მიზნითაც, რაც გულისხმობს ჩემთვის სარეკლამო შეთავაზებების გამოგზავნას* მოკლე ტექსტური შეტყობინების ან ელ ფოსტის საშუალებით. *სარეკლამო შეთავაზებების მიღების გაუქმება შესაძლებელია ნებისმიერ დროს.</p>
                     <br />
-                    <p>ამისათვის, საკმარისია მობილური ტელეფონით გაგზავნოთ მოკლე ტექსტური შეტყობინება (SMS) ტექსტით NOSMS ნომერზე 91036 (SMS რეკლამის ავტომატური გათიშვის მოთხოვნისთვის), დააჭიროთ შეთავაზების გამოწერის გაუქმების ბმულს ელ ფოსტით მიღებულ შეტყობინებაში (ელ ფოსტის რეკლამის ავტომატური გათიშვის მოთხოვნით) <br/> ან დაგვირეკოთ ცხელ ხაზზე: <b>0322 55 55 00</b> </p>
+                    <p>ამისათვის, საკმარისია მობილური ტელეფონით გაგზავნოთ მოკლე ტექსტური შეტყობინება (SMS) ტექსტით NOSMS ნომერზე 91036 (SMS რეკლამის ავტომატური გათიშვის მოთხოვნისთვის), დააჭიროთ შეთავაზების გამოწერის გაუქმების ბმულს ელ ფოსტით მიღებულ შეტყობინებაში (ელ ფოსტის რეკლამის ავტომატური გათიშვის მოთხოვნით) <br /> ან დაგვირეკოთ ცხელ ხაზზე: <b>0322 55 55 00</b> </p>
                 </ModalBody>
                 <ModalFooter>
                     <button className='blackBtn modalBtn' onClick={() => {
@@ -320,9 +335,10 @@ const MainForm = () => {
 მაქსიმუმ 1 სამუშაო დღეში ჩვენი ოპერატორი
 დაგიკავშირდებათ და გაგაცნობთ</p>
                     <button className='blackBtn modalBtn' onClick={() => {
-                        setSuccessModalStatus(false); 
-                        window.location.href = 'https://libertybank.ge/'}
-                        }>მთავარ გვერდზე დაბრუნება</button>
+                        setSuccessModalStatus(false);
+                        window.location.href = 'https://libertybank.ge/'
+                    }
+                    }>მთავარ გვერდზე დაბრუნება</button>
                 </ModalBody>
             </Modal>
         </div>

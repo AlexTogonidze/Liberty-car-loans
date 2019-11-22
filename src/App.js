@@ -4,9 +4,18 @@ import CarCarousel from './main/Carousel';
 import MainForm from './main/MainForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
-
+import ReactGA from 'react-ga';
 
 function App() {
+
+
+  ReactGA.initialize('UA-39762819-15', {
+    debug: true,
+    titleCase: false,
+   
+  });
+
+
   return (
     <div className="App">
       <div className='container'>
