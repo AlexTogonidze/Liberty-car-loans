@@ -164,7 +164,7 @@ const MainForm = () => {
             <form className='mainForm'>
                 {loading && <LoadingSpinner />}
                 <div className='formHeader'>
-                    <h3>ავტოსესხის განაცხადი</h3>
+                    <h1>ავტოსესხის განაცხადი</h1>
                     {/* <Dropdown isOpen={dropdownOpen} toggle={() => setDropdownOpen(!dropdownOpen)}>
                         <DropdownToggle className='clickable' tag='div' style={{ color: dropdownOpen && '#DB1810' }}>
                             <img src={!dropdownOpen ? require('../assets/link.png') : require('../assets/link-red.png')} alt='nav' />

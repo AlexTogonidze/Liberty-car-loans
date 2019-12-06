@@ -92,14 +92,14 @@ header {
   }
 
   p{
-    font-family: liberty-nus-medium;
+    font-family: liberty-nus;
   }
 
   ul.mainList li {
     position: relative;
     padding-left: 20px;
     margin-bottom: 15px;
-    font-family: liberty-nus-medium;
+    font-family: liberty-nus;
   }
 
   ul.mainList li::before {
@@ -182,7 +182,7 @@ header {
       margin-left: 3px;
     }
 
-    h3 {
+    h1 {
       font-size: 22px;
     }
   }
