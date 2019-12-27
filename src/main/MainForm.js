@@ -25,7 +25,7 @@ const MainForm = () => {
     }
 
     // field values with errors
-    const [rangeValue, setRangeValue] = useState();
+    const [rangeValue, setRangeValue] = useState(urlParams.get('price'));
     const [rangeValueError, setRangeValueError] = useState(false);
     const [manufacturer, setManufacturer] = useState(urlParams.get('manufacturer'));
     const [manufacturerError, setManufacturerError] = useState(false);
@@ -133,7 +133,7 @@ const MainForm = () => {
                         "Full Name": fullName,
                         "Phone": phone,
                         "ID": idNum,
-                        "Amount": rangeValue,
+                        "Amount": rangeValue.toString(),
                         "Manufacturer": manufacturer,
                         "Car Model": model,
                         "Production Year": year,
