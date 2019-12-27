@@ -22,6 +22,10 @@ input {
   outline: none;
 }
 
+h1, h3{
+  font-family: liberty-nus-medium;
+} 
+
 .clickable {
   cursor: pointer;
 }
@@ -126,6 +130,7 @@ header {
     font-size:16px;
     font-weight: 600;
     margin-top:5px;
+    font-family: liberty-nus-medium;
   }
 
   .formHeader {
@@ -183,7 +188,7 @@ header {
     }
 
     h1 {
-      font-size: 22px;
+      font-size: 23px;
     }
   }
 
@@ -266,6 +271,7 @@ header {
   padding: 20px 0;
   line-height: 16px;
   transition: all 0.3s;
+  font-family: liberty-nus-medium;
 
   &:hover {
     background: #2c2c2c;
@@ -410,6 +416,7 @@ header {
 
 .sendBtn {
   margin-top: 40px;
+  letter-spacing: 2px;
 }
 
 .modal-header {
@@ -523,6 +530,12 @@ header {
   border-radius: 2px;
   border: none;
   outline: none;
+}
+
+.carousel .slide img{
+  max-height: 450px;
+  max-width: 100%;
+  width: auto !important;
 }
 
 .carousel.carousel-slider {
